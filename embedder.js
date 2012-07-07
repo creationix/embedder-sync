@@ -6,12 +6,12 @@ var path = require('path');
 function resolvePackage(base, packagePath) {
     if (packagePath[0] === "." || packagePath[0] === "/") {
         var newPath = path.resolve(base, packagePath, "package.json");
-        if (path.existsSync(newPath)) return newPath;
+        if (fs.existsSync(newPath)) return newPath;
     }
     else {
         while (base) {
             var newPath = path.resolve(base, "node_modules", packagePath, "package.json");
-            if (path.existsSync(newPath)) return newPath;
+            if (fs.existsSync(newPath)) return newPath;
             base = base.substr(0, base.lastIndexOf("/"));
         }
     }
@@ -40,7 +40,7 @@ function embedder(base, modules, minify) {
       if (local) {
         var localPath = path.join(newBase, local + ".js");
 
-        if (!path.existsSync(localPath)) throw new Error("Missing file " + localPath);
+        if (!fs.existsSync(localPath)) throw new Error("Missing file " + localPath);
         files[module + local] = localPath;
         continue;
       }
